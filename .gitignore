@@ -1,0 +1,5 @@
+# ghostwriter backups
+*.md.backup
+
+# PowerShell scripts
+*.ps1
