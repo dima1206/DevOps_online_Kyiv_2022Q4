@@ -3,7 +3,7 @@
   * [Server, DHCP](#server-dhcp)
   * [Client1](#client1)
   * [Client2](#client2)
-  * [Check connection](#check-connection)
+  * [Check connection with explanations](#check-connection-with-explanations)
 - [Loopback on client1 (4-5)](#loopback-on-client1-4-5)
   * [`lo` interface](#lo-interface)
   * [Routing](#routing)
@@ -79,23 +79,31 @@ Interfaces on client2:
 ![](./images/14.png)
 </details>
 
-### Check connection
+### Check connection with explanations
 
 From client1 to client2:
 
 ![](./images/15.png)
 
-From client2 to client1 (using `-I` option to use ICMP echo requests, since default UDP probes are blocked by CentOS's firewall):
+Explanation: Since client1 doesn't know anything about net3 (10.6.99.0/24), it sends packets to gateway (server1). Server knows about net3 and forwards the packets. And since client1 does know about net4, it sends packets directly to client2.
+
+From client2 to client1:
 
 ![](./images/16.png)
+
+Explanation: it's pretty much the same as above, just reversed. But in this case using `-I` option to use ICMP echo requests, since default UDP probes are blocked by CentOS's firewall.
 
 Access to Internet from client1:
 
 ![](./images/18.png)
 
+Explanation: Since client1 doesn't know anything about 8.8.8.8, it sends the packets to gateway (server1). server1 doesn't know abut 8.8.8.8 as well, so it forwards the packets to its own gateway - my router. My router forwards them to its own gateway (my ISP). When packets with reply arrive from my ISP, my router finds the records that I added to its routing table and forwards the packets to server1. server1 knows about net2 and forwards packets directly to client1.
+
 Access to Internet from client2:
 
 ![](./images/17.png)
+
+Explanation: The same as above, but client2 instead of client1 and net3 instead of net2.
 
 ## Loopback on client1 (4-5)
 
