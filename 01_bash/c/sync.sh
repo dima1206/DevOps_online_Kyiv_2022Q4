@@ -9,7 +9,7 @@ then
 fi
 
 function log() {
-  echo "[$(date)] - [$1] - $2" >> "$sync_logfile"
+  echo "[$(date)] - [$1] - [PID: $$] - $2" >> "$sync_logfile"
 }
 
 log "INF" "Syncing directory '$1' to '$2'"
