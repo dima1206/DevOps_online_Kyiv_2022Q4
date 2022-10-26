@@ -4,24 +4,31 @@ read -d '' usage << EOF
 Script usage:
 	$0 [option]
 Available options:
-	--all     - scans current subnet and
-	-a          outputs found IPs and symbolic names
+	--all          - scans current subnet(s) and outputs
+	-a               IPs and symbolic names of found hosts
 
-	--target  - outputs open TCP ports on the
-	-t          current system
+	--target <IP>  - scans given host for open TCP ports
+	-t <IP>          and outputs them
+
+Note: Make sure that nmap is installed before using the script
 EOF
 
 function list_options() {
   echo "$usage"
 }
 
-function scan_subnet() {
+function check_nmap() {
   if ! command -v nmap &> /dev/null
   then
-    echo "This option requiers nmap installed"
+    echo "Install nmap before using this script" > /dev/stderr
     exit 1
   fi
+}
 
+# scan current subnets
+function scan_subnet() {
+  check_nmap
+  echo "Scanning..."
   ip -o address | grep "scope global" | awk '{print $4}' |
     while read -r subnet
     do
@@ -30,31 +37,24 @@ function scan_subnet() {
     done
 }
 
-function list_ports_helper() {
-  tail -n +2 $1 | cut -d: -f3 | cut -d' ' -f1 |
-    while read -r port
-    do
-      echo $((0x$port))
-    done | sort | uniq
-}
+# scan given target
+function scan_target() {
+  check_nmap
 
-function list_ports() {
-  echo "TCP:"
-  list_ports_helper "/proc/net/tcp"
-  echo "TCP6:"
-  list_ports_helper "/proc/net/tcp6"
-}
+  local rgx='([1-9]?[0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])'
+  if ! [[ "$1" =~ ^$rgx\.$rgx\.$rgx\.$rgx$ ]]
+  then
+    echo "'$1' is not a valid IP address" > /dev/stderr
+    exit 1
+  fi
 
-if [ $# -gt 1 ]
-then
-  echo "Only one option is allowed" > /dev/stderr
-  list_options
-  exit 1
-fi
+  echo "Scanning..."
+  nmap -oG /dev/stdout $1 | grep "Ports:" | cut -d"	" -f2 | sed -e 's/Ports: //' -e 's/,//g' | tr " " "\n" | awk -F'/' '{ if ($2 == "open") { print $1 } }'
+}
 
 case "$1" in
   --all|-a) scan_subnet ;;
-  --target|-t) list_ports ;;
+  --target|-t) scan_target $2 ;;
   "") list_options ;;
   *) echo "Unrecognized option '$1'" ; list_options ; exit 1 ;;
 esac
