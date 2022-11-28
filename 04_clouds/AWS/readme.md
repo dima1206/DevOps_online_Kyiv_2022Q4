@@ -2,6 +2,8 @@
 
 The site is located at https://aws.dimalysenko.pp.ua and contains list of tutorials and labs that I've completed.
 
+![](./images/s3.png)
+
 ## EC2 instances and EBS
 
 Create EC2 instance:
