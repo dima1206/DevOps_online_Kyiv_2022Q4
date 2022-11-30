@@ -56,7 +56,7 @@ Created first user:
 
 ![](./images/l1/2.3.png)
 
-Kept default Jenkins URL with public IP (Note: I'll use private IP and `localhost` as well down below):
+Kept default Jenkins URL with public IP (Note: I'll use `localhost` in the [Jenkins CLI](#jenkins-cli) section):
 
 ![](./images/l1/2.4.png)
 
