@@ -3,3 +3,7 @@
 
 # PowerShell scripts
 *.ps1
+
+# Temporary files that shouldn't be commited
+**/tmp/**
+tmp/**
