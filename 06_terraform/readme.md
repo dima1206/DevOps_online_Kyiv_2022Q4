@@ -15,7 +15,7 @@
 
 ### Intro
 
-Install Terraform ([script](./install_terraform.sh)):
+Install Terraform ([script](./01_intro/install_terraform.sh)):
 
 ![](./images/01/01.png)
 
@@ -175,9 +175,9 @@ Check the `terraform.tfstate` file and see that the output values are still stor
 
 ![](./images/04/extra/07.png)
 
-Since the instance was only stopped and still exists, it matches the described infrastructure, so `terraform plan` didn't show restarting or recreating the instance.
+Since the instance was only stopped and still exists, it matches the described infrastructure, so Terraform doesn't plan to restart or recreate the instance.
 
-Actually applying with show empty string for the public IP:
+Actually applying will show empty string for the public IP:
 
 ![](./images/04/extra/08.png)
 
@@ -185,7 +185,7 @@ Manually terminate/destroy the instance:
 
 ![](./images/04/extra/09.png)
 
-Now `now terraform plan` shows that the instance was deleted outside of the Terraform and it will recreate the instance:
+Now `terraform plan` shows that the instance was deleted outside of the Terraform and it will recreate the instance:
 
 ![](./images/04/extra/10.png)
 
@@ -211,7 +211,7 @@ I edited the file to use the profile that I configured on the system:
 
 ![](./images/05/main/04.png)
 
-`terraform plan` shows that 22 resources will be created with just few lines of code that use 2 modules:
+`terraform plan` shows that 22 resources will be created with just few lines of code using modules:
 
 ![](./images/05/main/05.png)
 
@@ -242,7 +242,7 @@ List of files:
 
 ![](./images/05/extra/06.png)
 
-`variables.tf` in the module describe parameters for the module:
+`variables.tf` in the module describes parameters for the module:
 
 ![](./images/05/extra/07.png)
 
@@ -256,7 +256,7 @@ In `main.tf` I removed other modules, specified AWS CLI profile and a different 
 
 ![](./images/05/extra/11.png)
 
-Note: When using module, `bucket_name` and `tags` are specified. Those are the variables that were specified in the module.
+Note: When using the module, `bucket_name` and `tags` are specified. Those are the variables that were specified in the module.
 
 I also removed corresponding outputs in the `output.tf` file:
 
