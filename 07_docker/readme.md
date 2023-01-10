@@ -7,7 +7,7 @@
   * [Dockerhub](#dockerhub)
   * [Frequently used Docker commands](#frequently-used-docker-commands)
     + [Existing images and containers](#existing-images-and-containers)
-    + [Searching and pulling images, running containers](#searching-and-pulling-images--running-containers)
+    + [Searching and pulling images, running containers](#searching-and-pulling-images-running-containers)
 - [Lecture 3](#lecture-3)
   * [Docker Compose](#docker-compose)
 
