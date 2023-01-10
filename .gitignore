@@ -1,8 +1,9 @@
 # ghostwriter backups
 *.md.backup
 
-# PowerShell scripts
-*.ps1
+# Scripts that help making homework reports
+**/hw_scripts/**
+hw_scripts/**
 
 # Temporary files that shouldn't be commited
 **/tmp/**
