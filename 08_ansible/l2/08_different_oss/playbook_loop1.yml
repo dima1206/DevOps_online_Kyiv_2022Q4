@@ -1,0 +1,26 @@
+---
+- name: Loop Playbook
+  hosts: linux1
+  become: yes
+
+  tasks:
+  - name: Hello World
+    debug:
+      msg: "Hello {{ item }}"
+    with_items:
+      - "Frontend"
+      - ".Net"
+      - "Java"
+
+  - name: Until example
+    shell: echo -n AB >> example.txt &&  cat example.txt
+    register: output
+    delay: 1
+    retries: 5
+    #until: output.stdout.find("BABABA") == false  # check if stdout starts with "BABABA" (`0 == False` returns `True` in Python)
+    #until: output.stdout.find("BABABA") != -1     # check if stdout contains "BABABA" using `find()` method
+    until: '"BABABA" in output.stdout'            # check if stdout contains "BABABA" using `in` operator
+
+  - name: Print output
+    debug:
+      var: output.stdout

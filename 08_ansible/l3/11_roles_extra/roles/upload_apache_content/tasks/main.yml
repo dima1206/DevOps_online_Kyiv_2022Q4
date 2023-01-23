@@ -1,0 +1,19 @@
+---
+# tasks file for upload_apache_content
+- name: Generate and upload index.html
+  template:
+    src: "index.html.j2"
+    dest: "{{ dst_dir }}/index.html"
+    mode: 0555
+  notify:
+    - Restart Apache Debian
+    - Restart Apache RedHat
+
+- name: Upload photo.png
+  copy:
+    src: "photo.png"
+    dest: "{{ dst_dir }}"
+    mode: 0555
+  notify:
+    - Restart Apache Debian
+    - Restart Apache RedHat

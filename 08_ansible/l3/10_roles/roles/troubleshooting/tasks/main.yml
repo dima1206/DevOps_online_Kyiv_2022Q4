@@ -1,0 +1,29 @@
+---
+# tasks file for troubleshooting
+
+- name: Print the gateway for each host when it is defined
+  ansible.builtin.debug:
+    msg: "{{ inventory_hostname }} has gateway {{ ansible_default_ipv4.gateway }}"
+  when: ansible_default_ipv4.gateway is defined
+  tags:
+    - gateway
+
+- name: Get uptime info
+  ansible.builtin.shell: /usr/bin/uptime
+  register: uptime_info
+  tags:
+    - uptime
+
+- name: Print uptime info
+  ansible.builtin.debug:
+    var: uptime_info
+    verbosity: 1
+  tags:
+    - uptime
+
+- name: Print all vars/facts for the host
+  ansible.builtin.debug:
+    var: hostvars[inventory_hostname]
+    verbosity: 2
+  tags:
+    - hostvars

@@ -1,0 +1,33 @@
+---
+- name: Install Apache Web Server on Amazon Linux and upload index.html
+  hosts: all
+  become: yes
+
+  vars:
+    src_file: index.html
+    dst_file: /var/www/html
+
+  tasks:
+  - name: Instal Apache Web Server
+    yum:
+      name: httpd
+      state: latest
+
+  - name: Upload site content to the servers
+    copy:
+      src: "{{ src_file }}"
+      dest: "{{ dst_file }}"
+      mode: 0555
+    notify: Restart Apache
+
+  - name: Start and enable the service
+    service:
+      name: httpd
+      state: started
+      enabled: yes
+
+  handlers:
+  - name: Restart Apache
+    service:
+      name: httpd
+      state: restarted

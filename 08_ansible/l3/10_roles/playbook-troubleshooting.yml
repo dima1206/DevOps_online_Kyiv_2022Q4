@@ -1,0 +1,7 @@
+---
+- name: Gather info about nodes for troubleshooting
+  hosts: all
+  become: yes
+
+  roles:
+    - troubleshooting

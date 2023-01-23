@@ -1,0 +1,3 @@
+---
+# vars file for upload_apache_content
+dst_dir: /var/www/html

@@ -1,0 +1,8 @@
+---
+- name: Install Apache Web Server and upload web page content
+  hosts: all
+  become: yes
+
+  roles:
+    - deploy_apache
+

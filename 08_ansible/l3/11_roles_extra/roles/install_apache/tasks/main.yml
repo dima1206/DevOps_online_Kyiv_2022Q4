@@ -1,0 +1,38 @@
+---
+# tasks file for install_apache
+- name: Check Linux distro
+  debug:
+    var: ansible_os_family
+
+- block:  # RedHat
+
+  - name: Install Apache Web Server on RedHat Family
+    yum:
+      name: httpd
+      state: latest
+
+  - name: Start and enable Apache on RedHat Family
+    service:
+      name: httpd
+      state: started
+      enabled: yes
+
+  when:
+    ansible_os_family == "RedHat"
+
+- block:  # Debian
+
+  - name: Install Apache Web Server on Debian Family
+    apt:
+      update_cache: yes
+      name: apache2
+      state: latest
+
+  - name: Start and enable Apache on Debian Family
+    service:
+      name: apache2
+      state: started
+      enabled: yes
+
+  when:
+    ansible_os_family == "Debian"
